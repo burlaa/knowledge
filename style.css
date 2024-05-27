@@ -2,37 +2,59 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
+    background-color: #FBC02D;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f0f0f0;
-}
-
-.container {
     text-align: center;
 }
 
+.container {
+    max-width: 600px;
+    padding: 20px;
+}
+
 h1 {
-    font-size: 2.5em;
+    font-size: 48px;
     margin-bottom: 20px;
 }
 
-ul {
-    list-style-type: none;
-    padding: 0;
+.image-container img {
+    width: 150px;
+    margin-bottom: 20px;
 }
 
-li {
-    margin: 10px 0;
+.countdown {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
-a {
+.time {
+    font-size: 24px;
+}
+
+.time span {
+    display: block;
+}
+
+.development {
+    margin-bottom: 20px;
+    color: #D32F2F;
+    font-style: italic;
+}
+
+.contact, .company-name {
+    font-size: 18px;
+}
+
+.contact a {
+    color: inherit;
     text-decoration: none;
-    color: #007BFF;
-    font-size: 1.2em;
 }
 
-a:hover {
+.contact a:hover {
     text-decoration: underline;
 }
