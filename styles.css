@@ -21,8 +21,9 @@ h1 {
 }
 
 .image-container img {
-    width: 150px;
-    margin-bottom: 20px;
+    position: absolute;
+    width: 100%;
+    left: 0;
 }
 
 .countdown {
