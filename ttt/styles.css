@@ -26,21 +26,23 @@ body {
     left: 50%;
     transform: translateX(-50%);
     color: #ffffff;
-    font-size: min(2rem, 7vw);
+    font-size: clamp(1rem, 5vw, 2rem);
     font-weight: 300;
     letter-spacing: 4px;
+    white-space: nowrap;
     text-transform: uppercase;
 }
 
 .score-board {
-    position: fixed;
-    top: 100px;
+    position: absolute;
+    top: 6rem;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     gap: 3rem;
     color: #ffffff;
-    font-size: min(1.2rem, 5vw);
+    font-size: clamp(0.8rem, 4vw, 1.2rem);
+    white-space: nowrap;
 }
 
 .score {
@@ -234,10 +236,13 @@ button:hover {
 @media (max-width: 480px) {
     .game-title {
         top: 1rem;
+        font-size: 1.2rem;
+        letter-spacing: 2px;
     }
     
     .score-board {
-        top: 70px;
+        top: 4rem;
+        gap: 2rem;
     }
 
     .board {
