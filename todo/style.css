@@ -34,7 +34,7 @@ body {
 }
 
 .app-container {
-    max-width: 600px;
+    max-width: 100%;
     margin: 0 auto;
     min-height: 100vh;
     display: flex;
@@ -43,7 +43,7 @@ body {
     position: relative;
     overflow: hidden;
     box-shadow: var(--shadow-md);
-    border-radius: 0 0 2rem 2rem;
+    border-radius: 0;
 }
 
 .app-container::before {
@@ -59,7 +59,7 @@ body {
 }
 
 .app-header {
-    padding: 2rem;
+    padding: 1rem;
     border-bottom: 2px solid var(--border);
     position: relative;
     z-index: 1;
@@ -74,7 +74,7 @@ body {
 }
 
 h1 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 700;
     color: var(--text-primary);
     letter-spacing: -0.02em;
@@ -119,10 +119,10 @@ h1 {
 
 .app-main {
     flex: 1;
-    padding: 2rem;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1rem;
     position: relative;
     z-index: 1;
 }
@@ -131,7 +131,7 @@ h1 {
     position: sticky;
     top: 0;
     background-color: rgba(255, 232, 214, 0.95);
-    padding: 1.5rem 0;
+    padding: 0.75rem 0;
     z-index: 10;
     backdrop-filter: blur(10px);
 }
@@ -141,8 +141,8 @@ h1 {
     display: flex;
     align-items: center;
     background-color: var(--background);
-    border-radius: 1.5rem;
-    padding: 1.5rem;
+    border-radius: 1rem;
+    padding: 0.75rem;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     border: 2px solid var(--border);
     box-shadow: var(--shadow-sm);
@@ -151,26 +151,26 @@ h1 {
 .task-input-wrapper:focus-within {
     border-color: var(--primary);
     box-shadow: 0 0 0 4px rgba(255, 154, 139, 0.2);
-    transform: translateY(-4px);
+    transform: translateY(-2px);
 }
 
 .task-input-wrapper i {
     color: var(--text-secondary);
-    margin-right: 1.5rem;
-    font-size: 1.5rem;
+    margin-right: 0.75rem;
+    font-size: 1.25rem;
     transition: all 0.5s ease;
 }
 
 .task-input-wrapper:focus-within i {
     color: var(--primary);
-    transform: scale(1.2) rotate(15deg);
+    transform: scale(1.1) rotate(15deg);
 }
 
 #newItemInput {
     flex: 1;
     border: none;
     background: none;
-    font-size: 1.25rem;
+    font-size: 1rem;
     color: var(--text-primary);
     outline: none;
     font-weight: 500;
@@ -188,13 +188,13 @@ h1 {
 }
 
 .task-group-header {
-    font-size: 1rem;
+    font-size: 0.875rem;
     font-weight: 600;
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    margin: 2.5rem 0 1.5rem;
-    padding-left: 1.5rem;
+    margin: 1.5rem 0 0.75rem;
+    padding-left: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -207,16 +207,16 @@ h1 {
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 6px;
-    height: 6px;
+    width: 4px;
+    height: 4px;
     background-color: var(--primary);
     border-radius: 50%;
-    box-shadow: 0 0 10px var(--primary);
+    box-shadow: 0 0 8px var(--primary);
 }
 
 .task-group-header h2 {
     margin: 0;
-    font-size: 1rem;
+    font-size: 0.875rem;
     font-family: 'Quicksand', sans-serif;
 }
 
@@ -225,12 +225,12 @@ h1 {
     border: none;
     color: var(--text-secondary);
     cursor: pointer;
-    padding: 1rem 1.5rem;
-    border-radius: 1rem;
-    font-size: 0.875rem;
+    padding: 0.5rem;
+    border-radius: 0.75rem;
+    font-size: 0.75rem;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.5rem;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
@@ -255,7 +255,7 @@ h1 {
 }
 
 .clear-completed i {
-    font-size: 1.25rem;
+    font-size: 1rem;
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -267,16 +267,16 @@ h1 {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.75rem;
 }
 
 .tasks-list li {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
-    padding: 1.5rem;
+    gap: 0.75rem;
+    padding: 0.75rem;
     background-color: var(--background);
-    border-radius: 1.5rem;
+    border-radius: 1rem;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     border: 2px solid var(--border);
@@ -299,10 +299,10 @@ h1 {
 }
 
 .task-checkbox {
-    width: 2rem;
-    height: 2rem;
+    width: 1.25rem;
+    height: 1.25rem;
     border: 2px solid var(--border);
-    border-radius: 0.75rem;
+    border-radius: 0.5rem;
     cursor: pointer;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
@@ -314,25 +314,25 @@ h1 {
     background-color: var(--primary);
     border-color: var(--primary);
     transform: scale(1.1);
-    box-shadow: 0 0 10px var(--primary);
+    box-shadow: 0 0 8px var(--primary);
 }
 
 .task-checkbox.checked::after {
     content: '';
     position: absolute;
-    left: 7px;
-    top: 4px;
-    width: 7px;
-    height: 14px;
+    left: 5px;
+    top: 3px;
+    width: 6px;
+    height: 12px;
     border: solid white;
-    border-width: 0 3px 3px 0;
+    border-width: 0 2px 2px 0;
     transform: rotate(45deg);
     animation: checkBounce 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .task-text {
     flex: 1;
-    font-size: 1.25rem;
+    font-size: 0.875rem;
     color: var(--text-primary);
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     font-weight: 500;
@@ -342,18 +342,14 @@ h1 {
 .tasks-list li.done .task-text {
     text-decoration: line-through;
     color: var(--text-secondary);
-    transform: translateX(10px);
+    transform: translateX(8px);
 }
 
 .task-actions {
     display: flex;
-    gap: 1rem;
-    opacity: 0;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.tasks-list li:hover .task-actions {
+    gap: 0.5rem;
     opacity: 1;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .task-btn {
@@ -361,8 +357,8 @@ h1 {
     border: none;
     color: var(--text-secondary);
     cursor: pointer;
-    padding: 1rem;
-    border-radius: 1rem;
+    padding: 0.5rem;
+    border-radius: 0.75rem;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
@@ -384,7 +380,7 @@ h1 {
 
 .task-btn:hover {
     color: var(--primary);
-    transform: translateY(-4px);
+    transform: translateY(-2px);
 }
 
 .task-btn.delete:hover {
@@ -396,7 +392,7 @@ h1 {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 6rem 3rem;
+    padding: 3rem 1.5rem;
     text-align: center;
     color: var(--text-secondary);
     position: relative;
@@ -405,24 +401,24 @@ h1 {
 .empty-state::before {
     content: '';
     position: absolute;
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     background: radial-gradient(circle, rgba(255, 154, 139, 0.2) 0%, rgba(255, 232, 214, 0) 70%);
     border-radius: 50%;
     animation: pulse 3s infinite;
 }
 
 .empty-state i {
-    font-size: 4rem;
-    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
     opacity: 0.5;
     animation: float 4s ease-in-out infinite;
 }
 
 .empty-state p {
-    font-size: 1.25rem;
+    font-size: 0.875rem;
     max-width: 20rem;
-    line-height: 1.8;
+    line-height: 1.6;
     font-family: 'Quicksand', sans-serif;
 }
 
@@ -431,13 +427,13 @@ h1 {
         transform: translateY(0) rotate(0deg);
     }
     25% {
-        transform: translateY(-15px) rotate(5deg);
+        transform: translateY(-10px) rotate(5deg);
     }
     50% {
         transform: translateY(0) rotate(0deg);
     }
     75% {
-        transform: translateY(-15px) rotate(-5deg);
+        transform: translateY(-10px) rotate(-5deg);
     }
 }
 
@@ -447,7 +443,7 @@ h1 {
         opacity: 0.5;
     }
     50% {
-        transform: scale(1.3);
+        transform: scale(1.2);
         opacity: 0.3;
     }
     100% {
@@ -459,7 +455,7 @@ h1 {
 @keyframes slideIn {
     from {
         opacity: 0;
-        transform: translateY(30px) rotate(-5deg);
+        transform: translateY(20px) rotate(-5deg);
     }
     to {
         opacity: 1;
@@ -483,7 +479,7 @@ h1 {
         transform: scale(1) rotate(45deg);
     }
     50% {
-        transform: scale(1.3) rotate(45deg);
+        transform: scale(1.2) rotate(45deg);
     }
     100% {
         transform: scale(1) rotate(45deg);
@@ -498,29 +494,83 @@ h1 {
         border-radius: 0;
     }
 
-    .tasks-list li {
-        padding: 1.5rem;
+    .app-header {
+        padding: 0.75rem;
     }
 
-    .task-btn {
-        padding: 1.25rem;
+    h1 {
+        font-size: 1.25rem;
+    }
+
+    .app-main {
+        padding: 0.75rem;
+        gap: 0.75rem;
     }
 
     .task-input-wrapper {
-        padding: 1.5rem;
+        padding: 0.75rem;
+    }
+
+    .task-input-wrapper i {
+        font-size: 1rem;
+        margin-right: 0.75rem;
+    }
+
+    #newItemInput {
+        font-size: 0.875rem;
+    }
+
+    .tasks-list li {
+        padding: 0.75rem;
+        gap: 0.75rem;
+    }
+
+    .task-checkbox {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
+    .task-text {
+        font-size: 0.875rem;
+    }
+
+    .task-btn {
+        padding: 0.5rem;
+    }
+
+    .task-btn i {
+        font-size: 0.875rem;
+    }
+
+    .task-group-header {
+        margin: 1.5rem 0 0.75rem;
+        font-size: 0.75rem;
+    }
+
+    .task-group-header h2 {
+        font-size: 0.75rem;
     }
 
     .clear-completed {
-        padding: 1.25rem;
-    }
-
-    .clear-completed span {
-        display: none;
+        padding: 0.5rem;
+        font-size: 0.75rem;
     }
 
     .clear-completed i {
-        margin: 0;
-        font-size: 1.5rem;
+        font-size: 0.875rem;
+    }
+
+    .empty-state {
+        padding: 3rem 1.5rem;
+    }
+
+    .empty-state i {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .empty-state p {
+        font-size: 0.875rem;
     }
 
     /* Disable hover effects on mobile */
