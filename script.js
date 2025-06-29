@@ -4,11 +4,62 @@ const YOUR_NAME = "Swaroop Burla";
 // DOM elements
 const nameDisplay = document.getElementById('nameDisplay');
 const namePath = document.getElementById('namePath');
-const navbar = document.getElementById('navbar');
+const topNavbar = document.getElementById('topNavbar');
 const navName = document.getElementById('navName');
+const hamburgerMenu = document.getElementById('hamburgerMenu');
+const sideMenu = document.getElementById('sideMenu');
+const sideMenuName = document.getElementById('sideMenuName');
 const mainContent = document.getElementById('mainContent');
 const constructionText = document.getElementById('constructionText');
 const detailsText = document.getElementById('detailsText');
+
+// Side menu functionality
+function initSideMenu() {
+    hamburgerMenu.addEventListener('click', toggleSideMenu);
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (sideMenu.classList.contains('open')) {
+            // Check if click is outside the side menu and not on the hamburger
+            const sideMenuRect = sideMenu.getBoundingClientRect();
+            const hamburgerRect = hamburgerMenu.getBoundingClientRect();
+            
+            const isOutsideSideMenu = e.clientX < sideMenuRect.left || e.clientX > sideMenuRect.right || 
+                                    e.clientY < sideMenuRect.top || e.clientY > sideMenuRect.bottom;
+            const isOnHamburger = e.clientX >= hamburgerRect.left && e.clientX <= hamburgerRect.right && 
+                                e.clientY >= hamburgerRect.top && e.clientY <= hamburgerRect.bottom;
+            
+            if (isOutsideSideMenu && !isOnHamburger) {
+                closeSideMenu();
+            }
+        }
+    });
+    
+    // Close menu on escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeSideMenu();
+        }
+    });
+}
+
+function toggleSideMenu() {
+    if (sideMenu.classList.contains('open')) {
+        closeSideMenu();
+    } else {
+        openSideMenu();
+    }
+}
+
+function openSideMenu() {
+    sideMenu.classList.add('open');
+    hamburgerMenu.classList.add('active');
+}
+
+function closeSideMenu() {
+    sideMenu.classList.remove('open');
+    hamburgerMenu.classList.remove('active');
+}
 
 // Typewriter animation function
 function typeWriter(element, text, speed = 100) {
@@ -34,26 +85,64 @@ function typeWriter(element, text, speed = 100) {
     });
 }
 
-// Apple-style handwriting animation
+// Apple-style handwriting animation with mobile optimization
 function startHandwritingAnimation() {
     return new Promise((resolve) => {
         const namePath = document.getElementById('namePath');
         
-        // Reset animation by removing and re-adding the animation class
-        namePath.style.animation = 'none';
-        namePath.offsetHeight; // Trigger reflow
-        namePath.style.animation = 'drawAndFill 3s ease-in-out forwards';
-        namePath.style.animationDelay = '0.5s';
+        // Check if SVG animations are supported
+        const supportsSVGAnimations = 'animate' in document.createElementNS('http://www.w3.org/2000/svg', 'animate');
         
-        // The animation is handled by CSS, we just need to wait for it to complete
-        setTimeout(() => {
-            resolve();
-        }, 3500); // 3s animation + 0.5s delay
+        if (!supportsSVGAnimations || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            // Fallback animation for mobile or unsupported browsers
+            namePath.style.fill = 'none';
+            namePath.style.stroke = 'white';
+            namePath.style.strokeWidth = '2';
+            namePath.style.opacity = '0';
+            
+            // Simple fade-in animation
+            let opacity = 0;
+            const fadeIn = setInterval(() => {
+                opacity += 0.02;
+                namePath.style.opacity = opacity;
+                
+                if (opacity >= 1) {
+                    clearInterval(fadeIn);
+                    // Fill the text after fade-in
+                    setTimeout(() => {
+                        namePath.style.fill = 'white';
+                        resolve();
+                    }, 500);
+                }
+            }, 30);
+        } else {
+            // Original SVG animation for supported browsers
+            namePath.style.animation = 'none';
+            namePath.offsetHeight; // Trigger reflow
+            
+            // Use webkit prefix for better mobile support
+            namePath.style.webkitAnimation = 'drawAndFill 3s ease-in-out forwards';
+            namePath.style.animation = 'drawAndFill 3s ease-in-out forwards';
+            namePath.style.webkitAnimationDelay = '0.5s';
+            namePath.style.animationDelay = '0.5s';
+            
+            // Force hardware acceleration on mobile
+            namePath.style.webkitTransform = 'translateZ(0)';
+            namePath.style.transform = 'translateZ(0)';
+            
+            // The animation is handled by CSS, we just need to wait for it to complete
+            setTimeout(() => {
+                resolve();
+            }, 3500); // 3s animation + 0.5s delay
+        }
     });
 }
 
 // Main animation sequence
 async function startAnimation() {
+    // Add animating class to body to prevent scrolling on mobile
+    document.body.classList.add('animating');
+    
     // Step 1: Let the Apple-style handwriting animation complete
     await startHandwritingAnimation();
     
@@ -63,9 +152,11 @@ async function startAnimation() {
     // Step 3: Fade out the name display
     nameDisplay.classList.add('fade-out');
     
-    // Step 4: Show navbar and set the name
+    // Step 4: Show top navbar, hamburger menu and set the name
     navName.textContent = YOUR_NAME;
-    navbar.classList.add('show');
+    sideMenuName.textContent = YOUR_NAME;
+    topNavbar.classList.add('show');
+    hamburgerMenu.classList.add('show');
     
     // Step 5: Show main content
     mainContent.classList.add('show');
@@ -81,9 +172,10 @@ async function startAnimation() {
         detailsText.classList.add('avengers-fade');
     }, 1000);
     
-    // Step 8: Remove the name display after animation
+    // Step 8: Remove the name display after animation and restore scrolling
     setTimeout(() => {
         nameDisplay.style.display = 'none';
+        document.body.classList.remove('animating');
     }, 1500);
 }
 
@@ -168,6 +260,7 @@ function addRippleStyles() {
 document.addEventListener('DOMContentLoaded', () => {
     addRippleStyles();
     addInteractiveEffects();
+    initSideMenu();
     startAnimation();
 });
 
@@ -199,25 +292,26 @@ function createFloatingParticles() {
             left: ${Math.random() * 100}%;
             top: ${Math.random() * 100}%;
         `;
+        
         particlesContainer.appendChild(particle);
     }
     
-    // Add floating animation
-    const floatStyle = document.createElement('style');
-    floatStyle.textContent = `
+    // Add CSS for floating animation
+    const style = document.createElement('style');
+    style.textContent = `
         @keyframes float {
             0%, 100% {
-                transform: translateY(0px) rotate(0deg);
+                transform: translateY(0px) translateX(0px);
                 opacity: 0.3;
             }
             50% {
-                transform: translateY(-20px) rotate(180deg);
-                opacity: 0.8;
+                transform: translateY(-20px) translateX(10px);
+                opacity: 0.7;
             }
         }
     `;
-    document.head.appendChild(floatStyle);
+    document.head.appendChild(style);
 }
 
-// Create floating particles
-createFloatingParticles(); 
+// Create particles after animation completes
+setTimeout(createFloatingParticles, 5000); 

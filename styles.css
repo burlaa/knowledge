@@ -45,11 +45,13 @@ body::before {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     z-index: 1000;
     transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    -webkit-transform: translateZ(0); /* Force hardware acceleration on mobile */
+    transform: translateZ(0);
 }
 
 .name-display.fade-out {
     opacity: 0;
-    transform: scale(0.9);
+    transform: scale(0.9) translateZ(0);
     pointer-events: none;
 }
 
@@ -60,12 +62,16 @@ body::before {
     display: flex;
     align-items: center;
     justify-content: center;
+    -webkit-transform: translateZ(0); /* Force hardware acceleration on mobile */
+    transform: translateZ(0);
 }
 
 .name-svg {
     width: 100%;
     height: 100%;
     filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.3));
+    -webkit-transform: translateZ(0); /* Force hardware acceleration on mobile */
+    transform: translateZ(0);
 }
 
 .name-path {
@@ -74,9 +80,39 @@ body::before {
     fill: none;
     animation: drawAndFill 3s ease-in-out forwards;
     animation-delay: 0.5s;
+    -webkit-animation: drawAndFill 3s ease-in-out forwards;
+    -webkit-animation-delay: 0.5s;
+    will-change: stroke-dashoffset, fill; /* Optimize animation performance */
 }
 
 @keyframes drawAndFill {
+    0% {
+        stroke-dashoffset: 1000;
+        fill: none;
+    }
+    20% {
+        stroke-dashoffset: 800;
+        fill: rgba(255, 255, 255, 0.1);
+    }
+    40% {
+        stroke-dashoffset: 600;
+        fill: rgba(255, 255, 255, 0.3);
+    }
+    60% {
+        stroke-dashoffset: 400;
+        fill: rgba(255, 255, 255, 0.6);
+    }
+    80% {
+        stroke-dashoffset: 200;
+        fill: rgba(255, 255, 255, 0.8);
+    }
+    100% {
+        stroke-dashoffset: 0;
+        fill: white;
+    }
+}
+
+@-webkit-keyframes drawAndFill {
     0% {
         stroke-dashoffset: 1000;
         fill: none;
@@ -205,8 +241,8 @@ body::before {
     }
 }
 
-/* Navigation bar */
-.navbar {
+/* Top navigation bar */
+.top-navbar {
     position: fixed;
     top: 0;
     left: 0;
@@ -216,20 +252,17 @@ body::before {
     opacity: 0;
     transform: translateY(-100%);
     transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 1rem 2rem;
 }
 
-.navbar.show {
+.top-navbar.show {
     opacity: 1;
     transform: translateY(0);
 }
 
-.nav-content {
+.nav-brand {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
 .nav-name {
@@ -245,52 +278,166 @@ body::before {
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-.navbar.show .nav-name {
+.top-navbar.show .nav-name {
     opacity: 1;
     transform: translateX(0);
 }
 
-.nav-links {
+/* Hamburger menu */
+.hamburger-menu {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 50%;
     display: flex;
-    gap: 2rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    z-index: 200;
     opacity: 0;
-    transform: translateX(20px);
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    transition-delay: 0.7s;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.navbar.show .nav-links {
+.hamburger-menu.show {
     opacity: 1;
-    transform: translateX(0);
+    transform: scale(1);
 }
 
-.nav-link {
+.hamburger-line {
+    width: 20px;
+    height: 2px;
+    background: white;
+    border-radius: 1px;
+    transition: all 0.3s ease;
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* Side menu */
+.side-menu {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    z-index: 200;
+    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+}
+
+.side-menu.open {
+    right: 0;
+}
+
+.side-menu-content {
+    padding: 80px 30px 30px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.side-menu-header {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.side-menu-name {
+    font-family: 'Great Vibes', 'Dancing Script', cursive;
+    font-size: 2rem;
+    font-weight: 400;
+    color: white;
+    font-style: italic;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0.3s;
+}
+
+.side-menu.open .side-menu-name {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.side-menu-links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.side-menu-link {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
     text-decoration: none;
     color: white;
     font-weight: 500;
-    font-size: 1rem;
+    font-size: 1.1rem;
     transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transform: translateX(30px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+    z-index: 210;
 }
 
-.nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: rgba(255, 255, 255, 0.8);
-    transition: width 0.3s ease;
+.side-menu-link:nth-child(1) {
+    transition-delay: 0.4s;
 }
 
-.nav-link:hover::after {
-    width: 100%;
+.side-menu-link:nth-child(2) {
+    transition-delay: 0.5s;
 }
 
-.nav-link:hover {
-    color: rgba(255, 255, 255, 0.8);
+.side-menu.open .side-menu-link {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.side-menu-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateX(5px);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.link-icon {
+    font-size: 1.5rem;
+    width: 30px;
+    text-align: center;
+}
+
+.link-text {
+    flex: 1;
+}
+
+/* Remove overlay completely - we don't need it */
+.side-menu-overlay {
+    display: none;
 }
 
 /* Main content */
@@ -529,15 +676,6 @@ body::before {
         font-size: 2rem;
     }
     
-    .nav-content {
-        flex-direction: column;
-        gap: 1rem;
-    }
-    
-    .nav-links {
-        gap: 1rem;
-    }
-    
     .name-container {
         max-width: 600px;
         height: 150px;
@@ -554,9 +692,181 @@ body::before {
     .details-text {
         font-size: 1rem;
     }
+    
+    /* Top navbar mobile adjustments */
+    .top-navbar {
+        padding: 0.8rem 1rem;
+    }
+    
+    .nav-name {
+        font-size: 1.5rem;
+    }
+    
+    /* Mobile side menu adjustments */
+    .side-menu {
+        width: 280px;
+        right: -280px;
+    }
+    
+    .side-menu-content {
+        padding: 70px 25px 25px;
+    }
+    
+    .side-menu-name {
+        font-size: 1.8rem;
+    }
+    
+    .side-menu-link {
+        padding: 12px 15px;
+        font-size: 1rem;
+    }
+    
+    /* Improve mobile animation performance */
+    .name-display {
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        -webkit-perspective: 1000px;
+        perspective: 1000px;
+    }
+    
+    .name-svg {
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
+    
+    .name-path {
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
+    
+    /* Prevent touch scrolling during animation */
+    body.animating {
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+    }
+    
+    /* Improve touch targets */
+    .hamburger-menu {
+        min-width: 44px;
+        min-height: 44px;
+    }
+    
+    .side-menu-link {
+        min-height: 44px;
+    }
+    
+    /* Optimize animations for mobile */
+    .name-display {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+        -webkit-will-change: opacity, transform;
+        will-change: opacity, transform;
+    }
+    
+    .name-svg {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+        -webkit-will-change: transform;
+        will-change: transform;
+    }
+    
+    .name-path {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+        -webkit-will-change: stroke-dashoffset, fill;
+        will-change: stroke-dashoffset, fill;
+    }
+    
+    /* Reduce animation complexity on mobile for better performance */
+    .name-path {
+        stroke-width: 1.5;
+    }
+    
+    /* Improve side menu performance */
+    .side-menu {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+        -webkit-will-change: transform;
+        will-change: transform;
+    }
+}
+
+@media (max-width: 480px) {
+    .name-container {
+        max-width: 400px;
+        height: 120px;
+    }
+    
+    .name-path {
+        font-size: 45px;
+    }
+    
+    /* Top navbar small screen adjustments */
+    .top-navbar {
+        padding: 0.6rem 0.8rem;
+    }
+    
+    .nav-name {
+        font-size: 1.3rem;
+    }
+    
+    .side-menu {
+        width: 260px;
+        right: -260px;
+    }
+    
+    .side-menu-content {
+        padding: 60px 20px 20px;
+    }
+    
+    .side-menu-name {
+        font-size: 1.6rem;
+    }
+    
+    .construction-text {
+        font-size: 1.1rem;
+    }
+    
+    .details-text {
+        font-size: 0.9rem;
+    }
 }
 
 /* Smooth scrolling */
 html {
     scroll-behavior: smooth;
+}
+
+/* High DPI display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .name-path {
+        stroke-width: 1;
+    }
+    
+    .hamburger-line {
+        height: 1px;
+    }
+}
+
+/* Landscape mobile optimizations */
+@media (max-width: 768px) and (orientation: landscape) {
+    .name-container {
+        max-width: 500px;
+        height: 100px;
+    }
+    
+    .name-path {
+        font-size: 50px;
+    }
+    
+    .side-menu {
+        width: 250px;
+        right: -250px;
+    }
+    
+    .side-menu-content {
+        padding: 50px 20px 20px;
+    }
 } 
