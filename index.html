@@ -3,33 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to My Thoughts!</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inconsolata&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inconsolata', monospace;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f7f7f7;
-            color: #333;
-            text-align: center;
-        }
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 0.5em;
-        }
-        p {
-            font-size: 1.2em;
-            max-width: 600px;
-        }
-    </style>
+    <title>Welcome</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Inter:wght@300;400;500;600&family=Great+Vibes&family=Allura&family=Alex+Brush&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>👋 Welcome to My Mindscape!</h1>
-    <p>Oops! My thoughts are a bit under construction right now. <br> Don’t worry – soon, this place will be buzzing with brainwaves, laughter, and maybe a few half-baked ideas. <br> Come back soon for the grand reveal! 🚧🛠️</p>
+    <div class="container">
+        <!-- Initial name display -->
+        <div class="name-display" id="nameDisplay">
+            <div class="name-container" id="nameContainer">
+                <svg class="name-svg" id="nameSvg" viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="strokeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:white;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:rgba(255,255,255,0.8);stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <text class="name-path" id="namePath" x="50%" y="50%" text-anchor="middle" dy="0.35em" fill="none" stroke="url(#strokeGradient)" stroke-width="2" font-family="Great Vibes, cursive" font-size="80" font-weight="400" font-style="italic">
+                        Swaroop Burla
+                    </text>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Navigation bar (initially hidden) -->
+        <nav class="navbar" id="navbar">
+            <div class="nav-content">
+                <h2 class="nav-name" id="navName"></h2>
+                <div class="nav-links">
+                    <a href="ttt/index.html" class="nav-link">Tic Tac Toe</a>
+                    <a href="clock/index.html" class="nav-link">Clock</a>
+                    <!-- <a href="#contact" class="nav-link">Contact</a> -->
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main content (initially hidden) -->
+        <main class="main-content" id="mainContent">
+            <section class="hero-section">
+                <div class="construction-message">
+                    <p class="construction-text" id="constructionText"></p>
+                </div>
+                <div class="construction-details">
+                    <p class="details-text" id="detailsText"></p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
 </body>
-</html>
+</html> 
